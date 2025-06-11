@@ -22,6 +22,17 @@ export default defineConfig(({ mode, command }) => {
                     changeOrigin: true,
                     rewrite: p => p.replace(/^\/dev-api/, ''),
                 },
+                '/api/f': {
+                    target: 'http://192.168.0.168:18081',
+                    changeOrigin: true,
+                    rewrite: path => path.replace(/^\/api\/f/, '')
+                },
+                // 使用 proxy 实例
+                '/api': {
+                    target: 'http://192.168.0.168:18081',
+                    changeOrigin: true,
+                    rewrite: path => path.replace(/^\/api/, 'de2api')
+                }
             },
         },
         resolve: {
@@ -30,6 +41,8 @@ export default defineConfig(({ mode, command }) => {
                 '~': path.resolve(__dirname, './'),
                 // 设置别名
                 '@': path.resolve(__dirname, './src'),
+                // 设置别名
+                '@de': path.resolve(__dirname, './src/modules/dataease'),
             },
         },
         build: {

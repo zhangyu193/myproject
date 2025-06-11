@@ -26,7 +26,7 @@ import { computed, getCurrentInstance, ComponentInternalInstance, ref } from 'vu
 import { useRoute, useRouter } from 'vue-router';
 
 const appStore = useAppStore();
-const size = computed(() => appStore.size);
+const size = computed(() => appStore.sizelayout);
 const route = useRoute();
 const router = useRouter();
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
@@ -38,7 +38,7 @@ const sizeOptions = ref([
 
 function handleSetSize(size: any) {
     proxy!.$modal.loading('正在设置布局大小，请稍候...');
-    appStore.setSize(size);
+    appStore.setSizelayout(size);
     setTimeout('window.location.reload()', 1000);
 }
 </script>

@@ -8,7 +8,12 @@ import { defineStore } from 'pinia';
 import { RouteRecordRaw } from 'vue-router';
 
 // 匹配views里面所有的.vue文件
-const modules = import.meta.glob('./../../views/**/*.vue');
+//const modules = import.meta.glob('./../../views/**/*.vue');
+
+const modules = {
+    ...import.meta.glob('./../../views/**/*.vue'),
+    ...import.meta.glob('./../../modules/dataease/**/*.vue'),
+};
 
 const usePermissionStore = defineStore('permission', {
     state: (): {
@@ -78,7 +83,25 @@ function filterAsyncRouter(asyncRouterMap: any[], lastRouter = false, type = fal
             } else if (route.component === 'InnerLink') {
                 route.component = InnerLink;
             } else {
-                route.component = loadView(route.component);
+                if (
+                    typeof route.component === 'string' &&
+                    route.component.startsWith('modules/dataease/') &&
+                    !route.component.includes('layout/index')
+                ) {
+                    // DataEase 页面统一使用 DataEaseLayout 包裹
+                    const pagePath = route.component;
+                    route.component = loadView('modules/dataease/layout/index');
+                    route.children = [
+                        {
+                            path: '',
+                            component: loadView(pagePath),
+                            name: route.name,
+                            meta: route.meta,
+                        },
+                    ];
+                } else {
+                    route.component = loadView(route.component);
+                }
             }
         }
         if (route.children != null && route.children && route.children.length) {
@@ -135,7 +158,13 @@ export function filterDynamicRoutes(routes: any[]) {
 export const loadView = (view: any) => {
     let res;
     for (const path in modules) {
-        const dir = path.split('views/')[1].split('.vue')[0];
+       // const dir = path.split('views/')[1].split('.vue')[0];
+        let dir;
+        if (path.includes('/modules/dataease/')) {
+            dir = path.split('/modules/dataease/')[1].split('.vue')[0];
+        } else {
+            dir = path.split('views/')[1].split('.vue')[0];
+        }
         if (dir === view) {
             res = () => modules[path]();
         }

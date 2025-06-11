@@ -45,7 +45,7 @@ import Pagination from '@/components/Pagination/index.vue';
 // 自定义表格工具组件
 import RightToolbar from '@/components/RightToolbar/index.vue';
 // 富文本组件
-import Editor from "@/components/Editor/index.vue"
+import Editor from "@/components/Editor/index.vue";
 // 文件上传组件
 import FileUpload from '@/components/FileUpload/index.vue';
 // 图片上传组件
@@ -56,6 +56,8 @@ import ImagePreview from '@/components/ImagePreview/index.vue';
 import TreeSelect from '@/components/TreeSelect/index.vue';
 // 字典标签组件
 import DictTag from '@/components/DictTag/index.vue';
+import setupDataEase from '@/modules/dataease/setup';
+
 
 const app = createApp(App);
 
@@ -77,21 +79,21 @@ app.component('FileUpload', FileUpload);
 app.component('ImageUpload', ImageUpload);
 app.component('ImagePreview', ImagePreview);
 app.component('RightToolbar', RightToolbar);
-app.component('Editor', Editor)
+app.component('Editor', Editor);
 
 app.use(router);
 app.use(store);
 app.use(plugins);
 app.use(elementIcons);
 app.component('svg-icon', SvgIcon);
-
+await setupDataEase(app)
 directive(app);
 
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {
     locale: locale,
     // 支持 large、default、small
-    size: Cookies.get('size') || 'default',
+    size: Cookies.get('sizelayout') || 'default',
 });
 
 app.mount('#app');

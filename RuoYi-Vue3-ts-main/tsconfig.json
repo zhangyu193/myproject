@@ -14,7 +14,8 @@
         "baseUrl": "./",
         "paths": {
             "@/*": ["src/*"],
-            "~/*": ["/*"]
+            "~/*": ["/*"],
+            "@de/*": ["./src/modules/dataease/*"]
         },
         "skipLibCheck": true
     },

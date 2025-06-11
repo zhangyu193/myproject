@@ -1,6 +1,8 @@
 import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
+import type { App } from 'vue';
 /* Layout */
 import Layout from '@/layout/index.vue';
+
 
 /**
  * Note: 路由配置项
@@ -41,6 +43,7 @@ import Layout from '@/layout/index.vue';
         title?: string;
     }
 }
+
 
 // 公共路由
 export const constantRoutes: RouteRecordRaw[] = [
@@ -84,7 +87,7 @@ export const constantRoutes: RouteRecordRaw[] = [
                 path: '/index',
                 component: () => import('@/views/index.vue'),
                 name: 'Index',
-                meta: { title: '首页', icon: 'dashboard', affix: true },
+                meta: { title: '工作台', icon: 'dashboard', affix: true },
             },
         ],
     },
@@ -102,6 +105,30 @@ export const constantRoutes: RouteRecordRaw[] = [
             },
         ],
     },
+    {
+        path: '/dataease',
+        component: Layout,
+        children: [
+            {
+                path: 'workbench',
+                component: () => import('@de/views/workbranch/index.vue'),
+                name: 'DataEaseWorkbench',
+                meta: { title: 'DataEase 工作台'}
+            },
+            {
+                path: 'dashboard',
+                component: () => import('@de/views/dashboard/index.vue'),
+                name: 'DataEaseDashboard',
+                meta: { title: 'DataEase 仪表台'}
+            },
+            {
+                path: 'dataset',
+                component: () => import('@de/views/visualized/data/dataset/index.vue'),
+                name: 'DataEaseDataset',
+                meta: { title: 'DataEase 数据集'}
+            }
+        ]
+    }
 ];
 
 // 动态路由，基于用户权限动态去加载
@@ -175,7 +202,7 @@ export const dynamicRoutes : RouteRecordRaw[]= [
                 meta: { title: '修改生成配置', activeMenu: '/tool/gen' },
             },
         ],
-    },
+    }
 ];
 
 const router = createRouter({
@@ -189,5 +216,8 @@ const router = createRouter({
         }
     },
 });
+export const setupRouter = (app: App<Element>) => {
+    app.use(router);
+}
 
 export default router;

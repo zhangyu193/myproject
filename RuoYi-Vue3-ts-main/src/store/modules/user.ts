@@ -1,4 +1,6 @@
 import { login, logout, getInfo } from '@/api/login';
+import { loginApi as deLoginApi } from '@dataease/api/login';
+import { useUserStoreWithOut as useDEUserStore } from '@dataease/store/modules/user';
 import { getToken, setToken, removeToken } from '@/utils/auth';
 import defAva from '@/assets/images/profile.jpg';
 import { defineStore } from 'pinia';
@@ -26,11 +28,18 @@ const useUserStore = defineStore('user', {
             const password = userInfo.password;
             const code = userInfo.code;
             const uuid = userInfo.uuid;
+            const deUserStore = useDEUserStore();
             return new Promise((resolve, reject) => {
                 login(username, password, code, uuid)
-                    .then((res: any) => {
+                    .then(async (res: any) => {
                         setToken(res.token);
                         this.token = res.token;
+                        try {
+                            const deRes: any = await deLoginApi({ name: username, pwd: password });
+                            deUserStore.setToken(deRes.data.token);
+                        } catch (e) {
+                            console.error('DataEase login failed', e);
+                        }
                         resolve(1);
                     })
                     .catch(error => {

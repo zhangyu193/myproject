@@ -176,6 +176,45 @@ export const dynamicRoutes : RouteRecordRaw[]= [
             },
         ],
     },
+    {
+        path: '/de-workbench',
+        component: Layout,
+        permissions: ['de:workbench:view'],
+        children: [
+            {
+                path: '',
+                component: () => import('@dataease/views/workbranch/index.vue'),
+                name: 'DEWorkbench',
+                meta: { title: 'DataEase 工作台' },
+            },
+        ],
+    },
+    {
+        path: '/de-dashboard',
+        component: Layout,
+        permissions: ['de:dashboard:view'],
+        children: [
+            {
+                path: '',
+                component: () => import('@dataease/views/dashboard/index.vue'),
+                name: 'DEDashboard',
+                meta: { title: 'DataEase 仪表台' },
+            },
+        ],
+    },
+    {
+        path: '/de-dataset',
+        component: Layout,
+        permissions: ['de:dataset:view'],
+        children: [
+            {
+                path: '',
+                component: () => import('@dataease/views/visualized/data/dataset/index.vue'),
+                name: 'DEDataset',
+                meta: { title: 'DataEase 数据集' },
+            },
+        ],
+    },
 ];
 
 const router = createRouter({

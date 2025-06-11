@@ -30,6 +30,7 @@ export default defineConfig(({ mode, command }) => {
                 '~': path.resolve(__dirname, './'),
                 // 设置别名
                 '@': path.resolve(__dirname, './src'),
+                '@dataease': path.resolve(__dirname, '../dataease-2.10/src'),
             },
         },
         build: {

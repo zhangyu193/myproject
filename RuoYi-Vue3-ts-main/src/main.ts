@@ -16,6 +16,7 @@ import './index.css';
 
 import App from './App.vue';
 import store from './store';
+import { setupStore as setupDEStore } from '@dataease/store';
 import router from './router';
 import directive from './directive'; // directive
 
@@ -81,6 +82,7 @@ app.component('Editor', Editor)
 
 app.use(router);
 app.use(store);
+setupDEStore(app);
 app.use(plugins);
 app.use(elementIcons);
 app.component('svg-icon', SvgIcon);

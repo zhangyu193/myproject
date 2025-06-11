@@ -74,9 +74,9 @@ const topFirstRoutes = ref<RouteRecordRaw[]>([
             {
                 path: '/index',
                 hidden: false,
-                component: () => import('@/dataease/views/workbranch/index.vue'),
+                component: () => import('@/views/index.vue'),
                 name: 'Index',
-                meta: { title: '工作台', icon: 'dashboard', affix: true }
+                meta: { title: '首页', icon: 'dashboard', affix: true }
             }
         ]
     }

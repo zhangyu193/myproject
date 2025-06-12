@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import createAutoImport from './auto-import';
 import createComponents from "./components";
 import createSvgIcon from './svg-icon';
+import createSvgLoader from './svg- loader';
 import createCompression from './compression';
 import createSetupExtend from './setup-extend';
 import { PluginOption } from 'vite';
@@ -12,6 +13,7 @@ export default function createVitePlugins(viteEnv: Record<string, string>, isBui
     vitePlugins.push(createAutoImport());
     vitePlugins.push(createComponents());
     vitePlugins.push(createSetupExtend());
+    vitePlugins.push(createSvgLoader());
     vitePlugins.push(createSvgIcon(isBuild));
     isBuild && vitePlugins.push(...createCompression(viteEnv));
     return vitePlugins;

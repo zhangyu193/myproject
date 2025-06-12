@@ -6,7 +6,7 @@ const { wsCache } = useCache()
 let stompClient: Stomp.Client
 let timeInterval
 const env = import.meta.env
-const basePath = env.VITE_API_BASEPATH0
+const basePath = env.VITE_APP_WEBSOCKET_API
 
 export default {
   install() {
@@ -39,10 +39,7 @@ export default {
         prefix = window.DataEaseBi.baseUrl
       } else {
         // const href = window.location.href
-        prefix = location.origin + location.pathname
-       if (env.MODE === 'development') {
-        prefix = basePath.endsWith('/') ? basePath : basePath + '/'
-      }
+        prefix = basePath;
       }
       if (!prefix.endsWith('/')) {
         prefix += '/'

@@ -64,11 +64,11 @@ export const userStore = defineStore('de-user', {
         this[key] = data[dkey]
         wsCache.set('user.' + key, this[key])
       })
-      const locale = useLocaleStoreWithOut()
-      if (locale.getCurrentLocale?.lang !== this.language) {
-        window.location.reload()
-      }
-      this.setLanguage(this.language)
+      // const locale = useLocaleStoreWithOut()
+      // if (locale.getCurrentLocale?.lang !== this.language) {
+      //   window.location.reload()
+      // }
+      // this.setLanguage(this.language)
     },
     setToken(token: string) {
       wsCache.set('user.token', token)

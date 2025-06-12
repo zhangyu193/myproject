@@ -77,15 +77,19 @@ import { getCodeImg } from '@/api/login';
 import Cookies from 'js-cookie';
 import { encrypt, decrypt } from '@/utils/jsencrypt';
 import useUserStore from '@/store/modules/user';
+import { useAppStoreWithOut } from '@de/store/modules/app';
 import { useRouter } from 'vue-router';
 import { FormInstance } from 'element-plus';
-import { ref } from 'vue';
-
+import { ref,onMounted} from 'vue';
+import { useCache } from '@de/hooks/web/useCache';
+import {queryDekey } from '@de/api/login';
+const { wsCache } = useCache();
+const appStore = useAppStoreWithOut();
 const userStore = useUserStore();
 const router = useRouter();
 const loginForm = ref<any>({
-    username: 'admin',
-    password: 'admin123',
+    username: '',
+    password: '',
     rememberMe: false,
     code: '',
     uuid: '',
@@ -163,9 +167,16 @@ function getCookie() {
         rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
     };
 }
-
 getCode();
 getCookie();
+onMounted(async () => {
+    if (!wsCache.get(appStore.getDekey)) {
+        queryDekey().then(res => {
+            wsCache.set(appStore.getDekey, res.data);
+        });
+    }
+});
+
 </script>
 
 <style lang="scss" scoped>

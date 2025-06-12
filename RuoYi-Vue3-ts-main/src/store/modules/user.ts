@@ -2,6 +2,9 @@ import { login, logout, getInfo } from '@/api/login';
 import { getToken, setToken, removeToken } from '@/utils/auth';
 import defAva from '@/assets/images/profile.jpg';
 import { defineStore } from 'pinia';
+import { useCache } from '@/hooks/web/useCache';
+import { useUserStoreWithOut } from '@de/store/modules/user';
+const userStore = useUserStoreWithOut();
 
 const useUserStore = defineStore('user', {
     state: (): {
@@ -31,6 +34,9 @@ const useUserStore = defineStore('user', {
                     .then((res: any) => {
                         setToken(res.token);
                         this.token = res.token;
+                        userStore.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsIm9pZCI6MSwiZXhwIjoxNzQ5ODkzMzYxfQ.f-Q-YM9i563K-HGpeVpNl8ocrEk-W58U9ZdiU9fPe_E");
+                        userStore.setExp(0);
+                        userStore.setTime(Date.now());
                         resolve(1);
                     })
                     .catch(error => {
@@ -42,7 +48,7 @@ const useUserStore = defineStore('user', {
         getInfo() {
             return new Promise((resolve, reject) => {
                 getInfo()
-                    .then((res: any) => {
+                    .then(async (res: any) => {
                         const user = res.user;
                         const avatar =
                             user.avatar === '' || user.avatar == null
@@ -59,6 +65,9 @@ const useUserStore = defineStore('user', {
                         this.name = user.userName;
                         this.nickName = user.nickName;
                         this.avatar = avatar;
+                        if (!userStore.getUid) {
+                            await userStore.setUser();
+                        }
                         resolve(res);
                     })
                     .catch(error => {

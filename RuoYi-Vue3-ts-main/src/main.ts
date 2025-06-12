@@ -6,6 +6,7 @@ import ElementPlus from 'element-plus';
 import locale from 'element-plus/es/locale/lang/zh-cn'; // 中文语言
 
 import '@/assets/styles/index.scss'; // global css
+import '@de/style/index.less'; // global css
 // element css
 import 'element-plus/es/components/message/style/css';
 import 'element-plus/es/components/message-box/style/css';

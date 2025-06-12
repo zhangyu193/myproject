@@ -1,5 +1,4 @@
 import { App } from 'vue'
-import '@de/style/index.less'
 import 'normalize.css/normalize.css'
 import '@antv/s2/dist/style.min.css'
 import '@de/utils/DateUtil'

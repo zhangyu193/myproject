@@ -56,5 +56,12 @@ export default defineConfig(({ mode, command }) => {
                 },
             },
         },
+        css: {
+            preprocessorOptions: {
+                less: {
+                    additionalData: `@import "@de/style/variable.less";`
+                }
+            },
+        }
     };
 });

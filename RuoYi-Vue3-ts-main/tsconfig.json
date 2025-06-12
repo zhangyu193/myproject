@@ -17,9 +17,15 @@
             "~/*": ["/*"],
             "@de/*": ["./src/modules/dataease/*"]
         },
+        "types": [
+            "vite/client",
+            "vite-plugin-svg-icons/client",
+            "element-plus-secondary/global",
+        ],
         "skipLibCheck": true
     },
-    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","test.ts"],
+
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","types/**/*.d.ts","test.ts","types"],
     "references": [{ "path": "./tsconfig.node.json" }],
     "ts-node": {
         "compilerOptions": {

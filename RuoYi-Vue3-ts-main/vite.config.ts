@@ -30,6 +30,16 @@ export default defineConfig(({ mode, command }) => {
                 '~': path.resolve(__dirname, './'),
                 // 设置别名
                 '@': path.resolve(__dirname, './src'),
+                '@dataease': path.resolve(__dirname, './src/modules/dataease'),
+                '@de': path.resolve(__dirname, './src/modules/dataease'),
+            },
+        },
+        css: {
+            preprocessorOptions: {
+                less: {
+                    javascriptEnabled: true,
+                    additionalData: `@import (reference) "${path.resolve(__dirname, 'src/modules/dataease/style/variable.less')}";`,
+                },
             },
         },
         build: {

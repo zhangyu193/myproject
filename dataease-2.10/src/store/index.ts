@@ -1,10 +1,6 @@
-import type { App } from 'vue'
-import { createPinia } from 'pinia'
+// 复用若依项目的 Pinia 实例，避免创建多个 store
+import store from '@/store'
 
-const store = createPinia()
-
-export const setupStore = (app: App<Element>) => {
-  app.use(store)
-}
+export const setupStore = () => {}
 
 export { store }

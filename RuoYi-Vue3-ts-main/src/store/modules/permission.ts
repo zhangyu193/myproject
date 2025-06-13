@@ -4,11 +4,32 @@ import { getRouters } from '@/api/menu';
 import Layout from '@/layout/index.vue';
 import ParentView from '@/components/ParentView/index.vue';
 import InnerLink from '@/layout/components/InnerLink/index.vue';
+import DataEaseLayout from '@/modules/dataease/layout/index.vue';
 import { defineStore } from 'pinia';
 import { RouteRecordRaw } from 'vue-router';
 
-// 匹配views里面所有的.vue文件
-const modules = import.meta.glob('./../../views/**/*.vue');
+// 匹配应用和 DataEase 模块下所有的 .vue 文件
+const modules = {
+    ...import.meta.glob('./../../views/**/*.vue'),
+    ...import.meta.glob('./../../modules/dataease/**/*.vue'),
+};
+
+// 判断是否来自 DataEase 模块
+function isDataEaseComponent(component: string) {
+    return (
+        component.startsWith('modules/dataease/') ||
+        component.startsWith('visualized/') ||
+        component.startsWith('datapreparation/') ||
+        component.startsWith('workbranch/') ||
+        component.startsWith('datascreen/')
+    );
+}
+
+function normalizeDataEasePath(component: string) {
+    if (component.startsWith('modules/dataease/')) return component;
+    // 默认 DataEase 页面位于 modules/dataease/views 下
+    return 'modules/dataease/views/' + component;
+}
 
 const usePermissionStore = defineStore('permission', {
     state: (): {
@@ -78,7 +99,30 @@ function filterAsyncRouter(asyncRouterMap: any[], lastRouter = false, type = fal
             } else if (route.component === 'InnerLink') {
                 route.component = InnerLink;
             } else {
-                route.component = loadView(route.component);
+                if (
+                    typeof route.component === 'string' &&
+                    isDataEaseComponent(route.component) &&
+                    !route.component.includes('layout/index')
+                ) {
+                    // DataEase 页面统一使用 DataEaseLayout 包裹
+                    const pagePath = normalizeDataEasePath(route.component);
+                    const pageName = route.name as string | undefined;
+                    // 父级路由使用不同名称，避免与子页面冲突
+                    if (pageName) {
+                        route.name = `${pageName}-layout`;
+                    }
+                    route.component = DataEaseLayout;
+                    route.children = [
+                        {
+                            path: '',
+                            component: loadView(pagePath),
+                            name: pageName,
+                            meta: route.meta,
+                        },
+                    ];
+                } else if (typeof route.component === 'string') {
+                    route.component = loadView(route.component);
+                }
             }
         }
         if (route.children != null && route.children && route.children.length) {
@@ -135,7 +179,14 @@ export function filterDynamicRoutes(routes: any[]) {
 export const loadView = (view: any) => {
     let res;
     for (const path in modules) {
-        const dir = path.split('views/')[1].split('.vue')[0];
+        let dir;
+        if (path.includes('/modules/dataease/')) {
+            dir =
+                'modules/dataease/' +
+                path.split('/modules/dataease/')[1].split('.vue')[0];
+        } else {
+            dir = path.split('views/')[1].split('.vue')[0];
+        }
         if (dir === view) {
             res = () => modules[path]();
         }

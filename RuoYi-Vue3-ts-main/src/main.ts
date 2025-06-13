@@ -11,6 +11,8 @@ import 'element-plus/es/components/message/style/css';
 import 'element-plus/es/components/message-box/style/css';
 import 'element-plus/es/components/notification/style/css';
 import 'element-plus/es/components/loading/style/css';
+// 全量样式，防止切换 DataEase 页面后丢失 Element Plus 样式
+import 'element-plus/theme-chalk/index.css';
 // tailwindcss
 import './index.css';
 
@@ -18,6 +20,7 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import directive from './directive'; // directive
+import setupDataEase from '@/modules/dataease/setup'
 
 // 注册指令
 import plugins from './plugins'; // plugins
@@ -58,6 +61,9 @@ import TreeSelect from '@/components/TreeSelect/index.vue';
 import DictTag from '@/components/DictTag/index.vue';
 
 const app = createApp(App);
+
+// 注册 DataEase 相关组件，需要在使用路由之前调用
+setupDataEase(app);
 
 // 全局方法挂载
 app.config.globalProperties.useDict = useDict;

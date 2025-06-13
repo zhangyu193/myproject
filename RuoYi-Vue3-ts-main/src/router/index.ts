@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
 /* Layout */
 import Layout from '@/layout/index.vue';
+import dataeaseRoutes from './modules/dataease';
 
 /**
  * Note: 路由配置项
@@ -105,7 +106,8 @@ export const constantRoutes: RouteRecordRaw[] = [
 ];
 
 // 动态路由，基于用户权限动态去加载
-export const dynamicRoutes : RouteRecordRaw[]= [
+export const dynamicRoutes: RouteRecordRaw[] = [
+    ...dataeaseRoutes,
     {
         path: '/system/user-auth',
         component: Layout,

@@ -16,5 +16,7 @@ tests/**/coverage/
 *.njsproj
 *.sln
 yarn*
-components.d.ts
+# auto-generated declaration files
+# 可根据需要纳入版本控制
 auto-imports.d.ts
+src/components.d.ts

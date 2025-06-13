@@ -14,7 +14,8 @@ interface UserState {
   time: number
 }
 
-export const userStore = defineStore('user', {
+// 修改 store id，避免与若依项目的同名 user store 冲突
+export const userStore = defineStore('de-user', {
   state: (): UserState => {
     return {
       token: null,

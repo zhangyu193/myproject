@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
 import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus';
+import { useLinkStoreWithOut } from '@/modules/dataease/store/modules/link'
 import { getToken } from '@/utils/auth';
 import errorCode from '@/utils/errorCode';
 import { tansParams, blobValidate } from '@/utils/ruoyi';
@@ -27,6 +28,10 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
     config => {
+        if (config.url?.startsWith('/dataease')) {
+            config.baseURL = import.meta.env.VITE_DATAEASE_API;
+            config.headers['Accept-Language'] = config.headers['Accept-Language'] || navigator.language;
+        }
         // 是否需要设置 token
         const isToken = (config.headers || {}).isToken === false;
         // 是否需要防止数据重复提交
@@ -126,6 +131,10 @@ service.interceptors.response.use(
             });
             return Promise.reject('error');
         } else {
+            if (res.config.url?.startsWith('/dataease')) {
+                const linkToken = res.headers['x-de-link-token'];
+                if (linkToken) useLinkStoreWithOut().setLinkToken(linkToken as string);
+            }
             return Promise.resolve(res.data);
         }
     },

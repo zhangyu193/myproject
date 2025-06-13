@@ -35,6 +35,7 @@ router.beforeEach((to, from, next) => {
                             .then(accessRoutes => {
                                 // 根据roles权限生成可访问的路由表
                                 accessRoutes.forEach(route => {
+                                    console.log(route);
                                     if (!isHttp(route.path)) {
                                         router.addRoute(route); // 动态添加可访问路由表
                                     }

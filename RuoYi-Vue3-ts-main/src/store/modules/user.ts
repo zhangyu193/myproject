@@ -34,7 +34,7 @@ const useUserStore = defineStore('user', {
                     .then((res: any) => {
                         setToken(res.token);
                         this.token = res.token;
-                        userStore.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsIm9pZCI6MSwiZXhwIjoxNzQ5ODkzMzYxfQ.f-Q-YM9i563K-HGpeVpNl8ocrEk-W58U9ZdiU9fPe_E");
+                        userStore.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsIm9pZCI6MSwiZXhwIjoxNzQ5OTA1NjA1fQ.AYavr0kshf95HOIwOYMOMyzgOzNM6OYf7DVRmWkX8CU");
                         userStore.setExp(0);
                         userStore.setTime(Date.now());
                         resolve(1);

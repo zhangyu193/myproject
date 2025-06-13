@@ -10,6 +10,7 @@ import { ElContainer } from 'element-plus-secondary'
 import { useRoute } from 'vue-router'
 import { XpackComponent } from '@de/components/plugin'
 import { useI18n } from '@de/hooks/web/useI18n'
+import configGlobal from '@de/components/config-global/src/ConfigGlobal.vue'
 const route = useRoute()
 const systemMenu = computed(() => route.path.includes('system'))
 const settingMenu = computed(() => route.path.includes('sys-setting'))
@@ -18,62 +19,64 @@ const toolboxMenu = computed(() => route.path.includes('toolbox'))
 const msgFillMenu = computed(() => route.path.includes('msg-fill'))
 const isCollapse = ref(false)
 const setCollapse = () => {
-  isCollapse.value = !isCollapse.value
+    isCollapse.value = !isCollapse.value
 }
 const { t } = useI18n()
 </script>
 
 <template>
-  <div class="common-layout">
-    <HeaderSystem
-      v-if="settingMenu || marketMenu || toolboxMenu || msgFillMenu"
-      :title="
-        toolboxMenu
-          ? t('toolbox.name')
-          : marketMenu
-          ? t('toolbox.template_center')
-          : msgFillMenu
-          ? t('v_query.msg_center')
-          : ''
-      "
-    />
-    <Header v-else></Header>
-    <el-container class="layout-container">
-      <template v-if="systemMenu || settingMenu || toolboxMenu || msgFillMenu">
-        <Sidebar v-if="!isCollapse" class="layout-sidebar">
-          <div
-            @click="setCollapse"
-            v-if="(systemMenu || msgFillMenu) && !isCollapse"
-            class="org-config-center"
-          >
-            {{ msgFillMenu ? t('v_query.msg_center') : t('toolbox.org_center') }}
-          </div>
-          <Menu
-            :style="{ height: systemMenu || msgFillMenu ? 'calc(100% - 48px)' : '100%' }"
-          ></Menu>
-        </Sidebar>
-        <el-aside class="layout-sidebar layout-sidebar-collapse" v-else>
-          <Menu
-            :collapse="isCollapse"
-            :style="{ height: systemMenu ? 'calc(100% - 48px)' : '100%' }"
-          ></Menu>
-        </el-aside>
-        <CollapseBar @setCollapse="setCollapse" :isCollapse="isCollapse"></CollapseBar>
-      </template>
+   <configGlobal>
+    <div class="common-layout">
+      <!-- <HeaderSystem
+        v-if="settingMenu || marketMenu || toolboxMenu || msgFillMenu"
+        :title="
+          toolboxMenu
+            ? t('toolbox.name')
+            : marketMenu
+            ? t('toolbox.template_center')
+            : msgFillMenu
+            ? t('v_query.msg_center')
+            : ''
+        "
+      />
+      <Header v-else></Header> -->
+      <el-container class="layout-container">
+        <template v-if="systemMenu || settingMenu || toolboxMenu || msgFillMenu">
+          <Sidebar v-if="!isCollapse" class="layout-sidebar">
+            <div
+              @click="setCollapse"
+              v-if="(systemMenu || msgFillMenu) && !isCollapse"
+              class="org-config-center"
+            >
+              {{ msgFillMenu ? t('v_query.msg_center') : t('toolbox.org_center') }}
+            </div>
+            <Menu
+              :style="{ height: systemMenu || msgFillMenu ? 'calc(100% - 48px)' : '100%' }"
+            ></Menu>
+          </Sidebar>
+          <el-aside class="layout-sidebar layout-sidebar-collapse" v-else>
+            <Menu
+              :collapse="isCollapse"
+              :style="{ height: systemMenu ? 'calc(100% - 48px)' : '100%' }"
+            ></Menu>
+          </el-aside>
+          <CollapseBar @setCollapse="setCollapse" :isCollapse="isCollapse"></CollapseBar>
+        </template>
 
-      <Main
-        class="layout-main"
-        :class="{ 'with-sider': systemMenu || settingMenu || toolboxMenu }"
-      ></Main>
-    </el-container>
-  </div>
+        <Main
+          class="layout-main"
+          :class="{ 'with-sider': systemMenu || settingMenu || toolboxMenu }"
+        ></Main>
+      </el-container>
+    </div>
+  </configGlobal>
   <XpackComponent jsname="L2NvbXBvbmVudC9sb2dpbi9Qd2RJbnZhbGlkVGlwcw==" />
 </template>
 
 <style lang="less" scoped>
 .common-layout {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 56px);
   overflow: hidden;
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { ElConfigProvider } from 'element-plus-secondary'
-import { useLocaleStore } from '@de/store/modules/locale'
+import { computed } from 'vue';
+import { ElConfigProvider } from 'element-plus-secondary';
+import { useLocaleStore } from '@de/store/modules/locale';
 
 // 多语言相关
 const localeStore = useLocaleStore()

@@ -80,16 +80,11 @@ export const constantRoutes: RouteRecordRaw[] = [
     },
     {
         path: '',
-        component: Layout,
-        redirect: '/index',
-        children: [
-            {
-                path: '/index',
-                component: () => import('@/views/index.vue'),
-                name: 'Index',
-                meta: { title: '工作台', icon: 'dashboard', affix: true },
-            },
-        ],
+        redirect: '/workbranch'
+    },
+    {
+        path: '/index',
+        redirect: '/system/menu'
     },
     {
         path: '/user',
@@ -104,30 +99,6 @@ export const constantRoutes: RouteRecordRaw[] = [
                 meta: { title: '个人中心', icon: 'user' },
             },
         ],
-    },
-    {
-        path: '/dataease',
-        component: Layout,
-        children: [
-            {
-                path: 'workbench',
-                component: () => import('@de/views/workbranch/index.vue'),
-                name: 'DataEaseWorkbench',
-                meta: { title: 'DataEase 工作台'}
-            },
-            {
-                path: 'dashboard',
-                component: () => import('@de/views/dashboard/index.vue'),
-                name: 'DataEaseDashboard',
-                meta: { title: 'DataEase 仪表台'}
-            },
-            {
-                path: 'dataset',
-                component: () => import('@de/views/visualized/data/dataset/index.vue'),
-                name: 'DataEaseDataset',
-                meta: { title: 'DataEase 数据集'}
-            }
-        ]
     }
 ];
 

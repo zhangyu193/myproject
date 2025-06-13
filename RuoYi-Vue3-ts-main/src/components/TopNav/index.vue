@@ -65,22 +65,22 @@ const permissionStore = usePermissionStore();
 const route = useRoute();
 const router = useRouter();
 const activeMenu = ref<string>('/index');
-const topFirstRoutes = ref<RouteRecordRaw[]>([
-    {
-        path: '/',
-        component: Layout,
-        redirect: '/index',
-        children: [
-            {
-                path: '/index',
-                hidden: false,
-                component: () => import('@de/views/workbranch/index.vue'),
-                name: 'Index',
-                meta: { title: '工作台', icon: 'dashboard', affix: true }
-            }
-        ]
-    }
-]);
+// const topFirstRoutes = ref<RouteRecordRaw[]>([
+//     {
+//         path: '/',
+//         component: Layout,
+//         redirect: '/dataease/workbranch',
+//         children: [
+//             {
+//                 path: '/dataease/workbranch',
+//                 hidden: false,
+//                 component: () => import('@de/views/workbranch/index.vue'),
+//                 name: 'Workbranch',
+//                 meta: { title: '工作台', icon: 'dashboard', affix: true }
+//             }
+//         ]
+//     }
+// ]);
 
 // 主题颜色
 const theme = computed(() => settingsStore.theme);
@@ -91,7 +91,7 @@ const routers = computed(() => permissionStore.topbarRouters);
 const topMenus = computed(() => {
     console.log(routers.value);
     let topMenus: RouteRecordRaw[] = [];
-    const newRouters = [...topFirstRoutes.value, ...routers.value];
+    const newRouters = [...routers.value];
     newRouters.map(menu => {
         if (menu.hidden !== true) {
             // 兼容顶部栏一级菜单内部跳转
@@ -102,6 +102,7 @@ const topMenus = computed(() => {
             }
         }
     });
+    console.log('topMenus', topMenus);
     return topMenus;
 });
 

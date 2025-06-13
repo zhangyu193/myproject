@@ -14,6 +14,7 @@ import 'element-plus/es/components/notification/style/css';
 import 'element-plus/es/components/loading/style/css';
 // tailwindcss
 import './index.css';
+import 'element-plus/theme-chalk/index.css';
 
 import App from './App.vue';
 import store from './store';
@@ -58,9 +59,12 @@ import TreeSelect from '@/components/TreeSelect/index.vue';
 // 字典标签组件
 import DictTag from '@/components/DictTag/index.vue';
 import setupDataEase from '@/modules/dataease/setup';
+import Icon from '@/modules/dataease/components/icon-custom/src/Icon.vue';
 
 
 const app = createApp(App);
+
+setupDataEase(app)
 
 // 全局方法挂载
 app.config.globalProperties.useDict = useDict;
@@ -81,13 +85,14 @@ app.component('ImageUpload', ImageUpload);
 app.component('ImagePreview', ImagePreview);
 app.component('RightToolbar', RightToolbar);
 app.component('Editor', Editor);
+app.component('Icon', Icon);
 
 app.use(router);
 app.use(store);
 app.use(plugins);
 app.use(elementIcons);
 app.component('svg-icon', SvgIcon);
-await setupDataEase(app)
+
 directive(app);
 
 // 使用element-plus 并且设置全局的大小
